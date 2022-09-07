@@ -1,10 +1,9 @@
-import HEAD from 'next/head';
-import { db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import style from '../styles/Home.module.css';
+import Head from 'next/head'
+import { db } from '../firebase'
+import { doc, getDoc } from "firebase/firestore"
+import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 
 export default function Home() {
   const router = useRouter()
@@ -12,12 +11,13 @@ export default function Home() {
   const [article, setArticle] = useState([]);
   useEffect(() => {
     (async () => {
-      if(!id) {
+      // パラメータが取得できるまでは処理をスキップする
+      if (!id) {
         return;
       }
       const docRef = doc(db, "articles", id);
       const docSnap = await getDoc(docRef);
-      if(docSnap.exists()) {
+      if (docSnap.exists()) {
         setArticle({
           id: docSnap.id,
           title: docSnap.data().title,
@@ -29,11 +29,11 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>{article.title} | ふーちんのひとこと日記帳</title>
-        <meta name="description" content="{srticle.description" />
+        <title>{article.title} | らべねこのひとこと日記帳</title>
+        <meta name="description" content="{article.description}" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className={styles.main}>
         <h1>{article.title}</h1>
         <p>{article.description}</p>
       </main>
